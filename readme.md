@@ -1,3 +1,7 @@
+## Installation
+Download repository, open command prompt in the extracted directory and type `pip install .`
+now you should be able to `import bpe_tokenizer` or `from bpe_tokenizer import BPETokenizer`
+
 ## Fast and greedy BPETokenizer
 
 The BPETokenizer
@@ -6,7 +10,8 @@ This a fast and greedy BPE (Byte Pair Encoding) Tokenizer class can be used to t
 The tokenizer can be trained on a corpus of text to generate a vocabulary of a desired size. Alternatively, it can be initialized with a pre-trained vocabulary. After training, it can encode text into integer tokens and decode those tokens back into text.
 
 This implementation focuses on speed, readability and ease of use and adjustment. Sports detailed docstrings and documentation. 
-*See examples in examples use in example.py*
+
+*See example usage in example.py*
 
 Some potential applications:
 
@@ -14,7 +19,6 @@ Some potential applications:
 - Train a domain-specific tokenizer to get better representations of rare words in that domain
 - Use pretrained tokenizer from file for encoding/decoding text 
 
-*See example.py for example use*
 
 ### The key methods are:
 
