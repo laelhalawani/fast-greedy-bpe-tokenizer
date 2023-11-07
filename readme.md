@@ -1,49 +1,41 @@
+# BPE Tokenizer Documentation
+
+- [Table of Contents](#table-of-contents)
+- [Introduction and Overview](#introduction-and-overview)
+- [Installation](#installation)
+- [BPE Tokenizer Class Usage Guide](#bpe-tokenizer-class-usage-guide)
+  - [Train and Save or Load Tokenizer](#train-and-save-or-load-tokenizer)
+  - [Encode Text to Integers](#encode-text-to-integers)
+  - [Decode Integers to Text](#decode-integers-to-text)
+- [API Reference](#api-reference)
+  - [train](#train)
+  - [encode](#encode)
+  - [decode](#decode)
+  - [save_vocab_file](#save-vocab-file)
+  - [load_vocab_file](#load-vocab-file)
+- [Advanced Topics](#advanced-topics)
+- [License](#license)
+- [Contributing](#contributing)
+
+## Introduction and Overview
+
+The BPE Tokenizer is a fast and greedy Byte Pair Encoding tokenizer for Python. It allows you to tokenize text into subword units by iteratively merging the most frequent pairs of adjacent characters or tokens to build up a vocabulary. This documentation provides an overview of the BPE Tokenizer and how to use it effectively.
+
 ## Installation
-Download repository, open command prompt in the extracted directory and type `pip install .`
-now you should be able to `import bpe_tokenizer` or `from bpe_tokenizer import BPETokenizer`
 
-## Fast and greedy BPETokenizer
+To install the BPE Tokenizer, you can download the repository and open a command prompt in the extracted directory. Then, run the following command:
 
-The BPETokenizer
-This a fast and greedy BPE (Byte Pair Encoding) Tokenizer class can be used to tokenize text into subword units. It works by iteratively merging the most frequent pairs of adjacent characters or tokens to build up a vocabulary. 
+```python
+pip install .
+```
 
-The tokenizer can be trained on a corpus of text to generate a vocabulary of a desired size. Alternatively, it can be initialized with a pre-trained vocabulary. After training, it can encode text into integer tokens and decode those tokens back into text.
-
-This implementation focuses on speed, readability and ease of use and adjustment. Sports detailed docstrings and documentation. 
-
-*See example usage in example.py*
-
-Some potential applications:
-
-- Train a tokenizer on a large corpus to get a generalized vocabulary, save to file and load for later use
-- Train a domain-specific tokenizer to get better representations of rare words in that domain
-- Use pretrained tokenizer from file for encoding/decoding text 
-
-
-### The key methods are:
-
-**train**
-- Overview: Trains the tokenizer on a corpus to generate a vocabulary
-- Details: Counts symbol pairs, finds most frequent, adds to vocab until reaching desired size
-
-**encode** 
-- Overview: Encodes text into integer tokens
-- Details: Iteratively checks longest match from vocab, encodes, moves to next character
-
-**decode**
-- Overview: Decodes integer tokens back into text
-- Details: Looks up each token integer in the decoder dictionary 
-
-**save_vocab_file/load_vocab_file**
-- Overview: Save current vocabulary to json file and load vocabulary from json file
-- Details: Uses json module to serialize vocabulary dict to json format
+After installation, you can import the tokenizer using `import bpe_tokenizer` or `from bpe_tokenizer import BPETokenizer`.
 
 ## BPE Tokenizer Class Usage Guide
 
 The BPE Tokenizer class allows trainable subword tokenization of text using the Byte Pair Encoding algorithm. Here are some examples of how to use the class:
 
-
-### Train and save or load lokenizer
+### Train and Save or Load Tokenizer
 
 **Train and save the tokenizer from scratch:**
 ```python
@@ -54,33 +46,78 @@ tokenizer.train_from_file(train_file, 5000, True)
 tokenizer.save_vocab_file(saved_vocab)
 ```
 
-**Load pretrained tokenizer:**
-
-```python 
+**Load a pretrained tokenizer:**
+```python
 saved_vocab = "./vocab.json"
 tokenizer = BPETokenizer(vocab_or_json_path=saved_vocab)
 ```
+**Encode Text to Integers**
 
-**Encode text to integers using a trained or loaded tokenizer:**
+Encode text to integers using a trained or loaded tokenizer:
+```python
+Copy code
+saved_vocab = "./vocab.json"
+tokenizer = BPETokenizer(saved_vocab)
+tokens = tokenizer.encode("This is some example text")
+print(tokens)
+```
 
+**Decode Integers to Text**
+Decode integers back into text:
 ```python
 saved_vocab = "./vocab.json"
 tokenizer = BPETokenizer(saved_vocab)
-tokens = tokenizer.encode("This is some example text") 
+text = tokenizer.decode([1,0, -1, -999])
+print(text)
 ```
 
-**Decode integers to text:**
-
+## API Reference
+### train
+*Method Signature:*
 ```python
-saved_vocab = "./vocab.json"
-tokenizer = BPETokenizer(saved_vocab)
-text = tokenizer.decode([123, 456, 789])
+def train(self, corpus, desired_vocab_size:int, word_level=True)
 ```
+Performs the core BPE training algorithm on the provided corpus. Iteratively merges the most frequent pair of adjacent symbols in the corpus text to build up vocabulary.
 
-The tokenizer generates a vocabulary by iteratively merging frequent symbol pairs from the training corpus. Encoding works by matching the longest substrings from text to vocabulary items. Decoding reverses this mapping.
+### train_from_file
+*Method Signature:*
+```python
+def train_from_file(self, corpus_file_path:str, desired_vocab_size:int, word_level=True)
+```
+Trains the BPE model from a corpus file. It reads the corpus text file file line by line and performs the core BPE training algorithm on each line.
 
-Training on a large, representative corpus produces a vocabulary optimized for general usage. Domain-specific vocabularies may produce better encodings for text in that domain.
+### encode
+*Method Signature:*
+```python
+def encode(self, text, pad_to_tokens=0)
+```
+Encodes text into corresponding integer tokens using the trained vocabulary. It iteratively takes the longest matching substring from the vocabulary and emits the integer token. Unknown symbols are replaced with the UNK token.
 
-The BPE Tokenizer class allows flexible reuse of pretrained vocabularies while also supporting creation of new ones when needed.
+### decode
+*Method Signature:*
+```python
+def decode(self, tokens)
+```
+Decodes a list of integer tokens into the corresponding text. It looks up each integer token in the decoder dictionary to recover the symbol string.
 
-If you have any issues or questions please submit in the repo and I will do my best to help out :)
+### save_vocab_file
+*Method Signature:*
+```python
+def save_vocab_file(self, json_file_path:str)
+```
+Saves the current vocabulary dictionary to the provided file path as a JSON file. It serializes the vocabulary dict as JSON using the json module.
+
+### load_vocab_file
+*Method Signature:*
+```python
+def load_vocab_file(self, json_file_path:str)
+```
+Loads the vocabulary dictionary from a JSON file at the given path using the json module.
+
+### Advanced Topics
+Using `word_level = False` will enable the use of a character level BPE model. It is significantly slower for training than a word level model, however it might be more accurate for complex tasks. Character level training were used in GPT tokenizers. The default value of `word_level` for this BPETokenizer implementation is `True`.
+## License
+GNU AGPLv3 2023, [laelhalawani@gmail.com](https://github.com/laelal.halawani).
+
+## Contributing
+Any and all is welcome, thank you!
