@@ -1,21 +1,12 @@
 # BPE Tokenizer Documentation
 
-- [Table of Contents](#table-of-contents)
-- [Introduction and Overview](#introduction-and-overview)
 - [Installation](#installation)
 - [BPE Tokenizer Class Usage Guide](#bpe-tokenizer-class-usage-guide)
   - [Train and Save or Load Tokenizer](#train-and-save-or-load-tokenizer)
   - [Encode Text to Integers](#encode-text-to-integers)
   - [Decode Integers to Text](#decode-integers-to-text)
 - [API Reference](#api-reference)
-  - [train](#train)
-  - [encode](#encode)
-  - [decode](#decode)
-  - [save_vocab_file](#save-vocab-file)
-  - [load_vocab_file](#load-vocab-file)
 - [Advanced Topics](#advanced-topics)
-- [License](#license)
-- [Contributing](#contributing)
 
 ## Introduction and Overview
 
