@@ -17,10 +17,10 @@ vocab_file = "./trained_vocab/vocab5000.json"
 tok = BPETokenizer()  
 
 # Train new vocabulary (comment this line after training and saving)
-#tok.train_from_file(train_file, 5000, True) 
+tok.train_from_file(train_file, 5000, True) 
 
 # Save newly trained vocabulary (comment this line after training and saving)
-#tok.save_vocab_file(vocab_file)
+tok.save_vocab_file(vocab_file)
 
 # Load vocabulary
 tok.load_vocab_file(vocab_file)
