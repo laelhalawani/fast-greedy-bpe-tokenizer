@@ -203,28 +203,19 @@ class BPETokenizer:
                 while j < len(text) and len(text) > 2:
                     curr_word = text[i:j]
                     next_char = text[j]
-                    #print(f"{text[0:i]}_{curr_word+next_char}_{text[j:]}")
                     if curr_word + next_char in _temp_vocab.keys():
-                        #print(f"Skipping {curr_word + next_char}")
                         j += 1
                     else:
-                        #print(f"Adding {curr_word + next_char}")
                         if curr_word+next_char in word_freqs.keys():
                             word_freqs[curr_word+next_char] += inc
                         else:
                             word_freqs[curr_word+next_char] = inc
-                        #if word_freqs[curr_word+next_char] > 1:
-                            #pass
-                            #print(f"Current word freq for {curr_word + next_char} is {word_freqs[curr_word+next_char]}")
                         i = j
                         j += 1
-                        #print(f"i is {i}, j is {j}, text length is {len(text)}"),
             if word_freqs == {}:
-                #continue
                 if len(_temp_vocab) < desired_vocab_size:
                     print(f"Ending early at {len(_temp_vocab)}/{desired_vocab_size}, all combinations exhausted")
                     self._set_vocab_size(len(_temp_vocab))
-                #continue
                 break
             best_pair_str = max(word_freqs, key=word_freqs.get)
             occurences = word_freqs[max(word_freqs, key=word_freqs.get)]
@@ -346,7 +337,7 @@ class BPETokenizer:
         
         end_string = False
 
-        while j <= len(text):  # Change this line to include the last character
+        while j <= len(text):  
             if text[i:].startswith(self._PAD):
                 tokens.append(self.encoder_dict[self._PAD])
                 i += len(self._PAD)
@@ -356,10 +347,8 @@ class BPETokenizer:
                 i += len(self._EOS)
                 continue
             curr_word = text[i:j]
-            #print(f"Current Token: {curr_word}")
             if j < len(text):
                 next_char = text[j]
-                #print(f"Next Char: {next_char}")
             else:
                 next_char = ""
                 end_string = True
@@ -370,11 +359,9 @@ class BPETokenizer:
                 except KeyError:
                     print(f"'{curr_word}' in '{text}' not found in vocab, setting to UNK token")
                     tokens.append(self.encoder_dict[self._UNK])
-                #print(f"Token Appended: {curr_word}")
                 i = j
             j += 1
         tokens = self.pad(tokens, pad_to_tokens) if pad_to_tokens > 0 else tokens
-        #print(f"Final Tokens: {tokens}")
         return tokens
     
     def pad(self, tokens:list, desired_length):
