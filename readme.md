@@ -46,7 +46,6 @@ tokenizer = BPETokenizer(vocab_or_json_path=saved_vocab)
 
 Encode text to integers using a trained or loaded tokenizer:
 ```python
-Copy code
 saved_vocab = "./vocab.json"
 tokenizer = BPETokenizer(saved_vocab)
 tokens = tokenizer.encode("This is some example text")
