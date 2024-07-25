@@ -19,7 +19,10 @@ To install the BPE Tokenizer, you can download the repository and open a command
 ```python
 pip install .
 ```
-
+or 
+```python
+pip install git+https://github.com/laelhalawani/fast-greedy-bpe-tokenizer.git
+```
 After installation, you can import the tokenizer using `import bpe_tokenizer` or `from bpe_tokenizer import BPETokenizer`.
 
 ## BPE Tokenizer Class Usage Guide
