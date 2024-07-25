@@ -14,14 +14,13 @@ The BPE Tokenizer is a fast and greedy Byte Pair Encoding tokenizer for Python. 
 
 ## Installation
 
-To install the BPE Tokenizer, you can download the repository and open a command prompt in the extracted directory. Then, run the following command:
-
-```python
-pip install .
-```
-or 
+To install the BPE Tokenizer, you can use:
 ```python
 pip install git+https://github.com/laelhalawani/fast-greedy-bpe-tokenizer.git
+```
+or manually download the repository and open a command prompt in the extracted directory and run the install command.
+```python
+pip install .
 ```
 After installation, you can import the tokenizer using `import bpe_tokenizer` or `from bpe_tokenizer import BPETokenizer`.
 
